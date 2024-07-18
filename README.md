@@ -58,6 +58,8 @@ $ jupyter lab
 $ jupyter notebook
 ```
 
+**Note:** Necessary data files are already included within the repository, so there is no need to run the `*_data_collection.ipynb` files again (unless you would like to edit the data).
+
 ### Troubleshooting
 
 * Make sure you are running your Notebook on the correct virtual environment kernel. Go to **Kernel > Change Kernel...** to verify you are using the correct kernel and/or change it to the correct one. The name should match the `[env_name]` you passed in when creating the kernel.
