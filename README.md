@@ -1,6 +1,6 @@
 # game-prediction-models
 
-A collection of statistical models to predict the outcomes of individual games in baseball, soccer, and basketball
+A collection of statistical models to predict the outcomes of individual games in baseball, soccer, and basketball.
 
 ### Clone repository
 
@@ -49,7 +49,7 @@ $ python3 -m pip install ipykernel
 $ python3 -m ipykernel install --user --name=[env_name]
 ```
 
-### Run the notebook
+### Run the project
 
 Start up Jupyter Lab (or Notebook) with either command:
 
@@ -58,4 +58,12 @@ $ jupyter lab
 $ jupyter notebook
 ```
 
-When running the program, make sure your kernel is set to the virtual environment. Go to **Kernel > Change Kernel...** to verify you are using the correct kernel and/or change it to the correct one.
+### Troubleshooting
+
+* Make sure you are running your Notebook on the correct virtual environment kernel. Go to **Kernel > Change Kernel...** to verify you are using the correct kernel and/or change it to the correct one. The name should match the `[env_name]` you passed in when creating the kernel.
+
+    ![Choose the correct kernel](kernel.png)
+
+* Double check that you have installed all Python packages necessary to run the project. At the top of the Notebook file, run the appropriate cells to install and import the packages.
+
+    ![Install and import all necessary packages](install.png)
