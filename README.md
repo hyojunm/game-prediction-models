@@ -2,6 +2,8 @@
 
 A collection of statistical models to predict the outcomes of individual games in baseball, soccer, and basketball.
 
+Please read the Notebook files for more information about the project!
+
 ### Clone repository
 
 Navigate to your desired directory on the terminal, then clone the project repository:
