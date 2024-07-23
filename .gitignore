@@ -1,4 +1,6 @@
+.git
 env
 .ipynb_checkpoints
 */.ipynb_checkpoints
 */images
+__pycache__
