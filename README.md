@@ -11,6 +11,12 @@ Navigate to your desired directory on the terminal, then clone the project repos
 git clone https://github.com/hyojunm/game-prediction-models.git
 ```
 
+Then, move into the repository directory:
+
+```bash
+cd game-prediction-models
+```
+
 ### Install dependencies
 
 Ensure that you have the following dependencies installed:
