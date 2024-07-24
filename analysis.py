@@ -87,6 +87,8 @@ def season_record(df, results):
     for i in range(len(results)):
         away_team = df['away_team'].iloc[13047 + i]
         home_team = df['home_team'].iloc[13047 + i]
+        # away_team = df['away_team'].iloc[10617 + i]
+        # home_team = df['home_team'].iloc[10617 + i]
         home_team_won = results['away_pred'].iloc[i] <= results['home_pred'].iloc[i]
     
         if away_team not in team_records:
@@ -116,6 +118,8 @@ def runs_per_game(df, results):
     for i in range(len(results)):
         away_team = df['away_team'].iloc[13047 + i]
         home_team = df['home_team'].iloc[13047 + i]
+        # away_team = df['away_team'].iloc[10617 + i]
+        # home_team = df['home_team'].iloc[10617 + i]
         
         if away_team not in runs_scored:
             runs_scored[away_team] = 0

@@ -65,3 +65,19 @@ python3 random_forest_regression.py
 ```
 
 **Note:** Necessary data files are already included within the repository, so there is no need to run the `baseball_data_collection.ipynb` file again (unless you would like to edit the data).
+
+### Game data version log
+
+* `v1` : no weights applied
+* `v2` : stats weighted based on recency (60%-25%-15%)
+* `v3` : stats weighted based on recency and sample size
+* `v4` : using stats from past 2 seasons (instead of past 3)
+* `v5` : using adjusted default rookie values
+* `v6` : default rookie values are applied only for completely new players
+* `v7` : using traditional stats (instead of expected stats)
+* `v8` : using traditional stats from past 3 seasons (not including current)
+* `v9` : using expected stats from past 3 seasons (not including current)
+
+***Note:** When not explicitly mentioned, all data is compiled using stats from the past 3 seasons, including the current season.*
+
+***Another note:** Game data from `v6` onwards will use default rookie values for completely new players and personal averages for all other players.*
