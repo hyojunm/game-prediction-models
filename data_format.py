@@ -1,25 +1,4 @@
-import random
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
-from sklearn.multioutput import MultiOutputRegressor
-from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.preprocessing import StandardScaler, QuantileTransformer, Normalizer
-from sklearn.pipeline import Pipeline
-from sklearn.metrics import mean_squared_error, make_scorer
-from sklearn.linear_model import LinearRegression, LogisticRegression, PoissonRegressor
-from sklearn.tree import DecisionTreeRegressor
-
-import graphviz
-from sklearn.tree import export_graphviz
-from IPython.display import Image
-
-import statsmodels.api as sm
-from statsmodels.stats.outliers_influence import variance_inflation_factor
-
-from analysis import get_feature_importances, visualize_decision_trees, get_vif, wl_accuracy, season_record, runs_per_game
 
 
 # using game_data_v6.csv

@@ -70,11 +70,12 @@ def wl_accuracy(results):
 # calculate season records based on predictions
 def season_record(df, results, season=2023):
     team_records = {}
+    num_games = 60 if season == 2020 else 162
     season_start, season_end = get_season_index(season)
 
     for i in range(len(results)):
         away_team = df['away_team'].iloc[season_start + i]
-        home_team = df['home_team'].iloc[season_end + i]
+        home_team = df['home_team'].iloc[season_start + i]
         
         home_team_won = results['away_pred'].iloc[i] <= results['home_pred'].iloc[i]
     
@@ -92,7 +93,7 @@ def season_record(df, results, season=2023):
     
     for team in sorted(team_records, key=lambda x: team_records[x], reverse=True):
         count += 1
-        print(f'{team}: {team_records[team]}-{162 - team_records[team]}', end='\t')
+        print(f'{team}: {team_records[team]}-{num_games - team_records[team]}', end='\t')
         
         if count % 5 == 0:
             print()
@@ -101,6 +102,7 @@ def season_record(df, results, season=2023):
 # calculate each team's runs scored per game based on predictions
 def runs_per_game(df, results, season=2023):
     runs_scored = {}
+    num_games = 60 if season == 2020 else 162
     season_start, season_end = get_season_index(season)
 
     for i in range(len(results)):
@@ -121,7 +123,7 @@ def runs_per_game(df, results, season=2023):
     
     for team in sorted(runs_scored, key=lambda x: runs_scored[x], reverse=True):
         count += 1
-        print(f'{team}: {round(runs_scored[team] / 162, 2)} ({round(runs_scored[team])})', end='\t')
+        print(f'{team}: {round(runs_scored[team] / num_games, 2)} ({round(runs_scored[team])})', end='\t')
         
         if count % 5 == 0:
             print()
