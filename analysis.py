@@ -1,23 +1,10 @@
-import random
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
-from sklearn.multioutput import MultiOutputRegressor
-from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.preprocessing import StandardScaler, QuantileTransformer, Normalizer
-from sklearn.pipeline import Pipeline
-from sklearn.metrics import mean_squared_error, make_scorer
-from sklearn.linear_model import LinearRegression, LogisticRegression, PoissonRegressor
-from sklearn.tree import DecisionTreeRegressor
 
 import graphviz
 from sklearn.tree import export_graphviz
 from IPython.display import Image
 
-import statsmodels.api as sm
-from statsmodels.stats.outliers_influence import variance_inflation_factor
+from data_format import get_season_index
 
 
 # figure out which features (columns) are being considered most by the model
@@ -81,14 +68,14 @@ def wl_accuracy(results):
 
 
 # calculate season records based on predictions
-def season_record(df, results):
+def season_record(df, results, season=2023):
     team_records = {}
+    season_start, season_end = get_season_index(season)
 
     for i in range(len(results)):
-        away_team = df['away_team'].iloc[13047 + i]
-        home_team = df['home_team'].iloc[13047 + i]
-        # away_team = df['away_team'].iloc[10617 + i]
-        # home_team = df['home_team'].iloc[10617 + i]
+        away_team = df['away_team'].iloc[season_start + i]
+        home_team = df['home_team'].iloc[season_end + i]
+        
         home_team_won = results['away_pred'].iloc[i] <= results['home_pred'].iloc[i]
     
         if away_team not in team_records:
@@ -112,14 +99,13 @@ def season_record(df, results):
 
 
 # calculate each team's runs scored per game based on predictions
-def runs_per_game(df, results):
+def runs_per_game(df, results, season=2023):
     runs_scored = {}
+    season_start, season_end = get_season_index(season)
 
     for i in range(len(results)):
-        away_team = df['away_team'].iloc[13047 + i]
-        home_team = df['home_team'].iloc[13047 + i]
-        # away_team = df['away_team'].iloc[10617 + i]
-        # home_team = df['home_team'].iloc[10617 + i]
+        away_team = df['away_team'].iloc[season_start + i]
+        home_team = df['home_team'].iloc[season_start + i]
         
         if away_team not in runs_scored:
             runs_scored[away_team] = 0

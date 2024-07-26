@@ -37,6 +37,17 @@ season_indices = {
 }
 
 
+def get_season_index(year):
+    if year < 2015 or year > 2024:
+        return (0, 0)
+        
+    return season_indices[year]
+
+
+def separate_data(df, start, end):
+    return pd.concat([df.iloc[0:start], df.iloc[end:]]), df.iloc[start:end]
+
+
 # create the appropriate training and testing data based on home/away, dropping columns as needed
 def create_data(df, drop_cols=['away_score', 'home_score', 'away_team', 'home_team'],
                 y_col='away_score', split_by='random', season=2023):
@@ -44,9 +55,9 @@ def create_data(df, drop_cols=['away_score', 'home_score', 'away_team', 'home_te
     x = df.drop(drop_cols, axis=1)
 
     if split_by == 'season':
-        season_start, season_end = season_indices[season]
-        x_train, x_test = x.iloc[0:season_start] + x.iloc[season_end:], x.iloc[season_start:season-end]
-        y_train, y_test = x.iloc[0:season_start] + x.iloc[season_end:], x.iloc[season_start:season-end]
+        season_start, season_end = get_season_index(season)
+        x_train, x_test = separate_data(x, season_start, season_end)
+        y_train, y_test = separate_data(y, season_start, season_end)
     else:
         x_train, x_test, y_train, y_test = train_test_split(x, y, shuffle=True)
     
