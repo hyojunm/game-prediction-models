@@ -81,3 +81,13 @@ python3 random_forest_regression.py
 ***Note:** When not explicitly mentioned, all data is compiled using stats from the past 3 seasons, including the current season.*
 
 ***Another note:** Game data from `v6` onwards will use default rookie values for completely new players and personal averages for all other players.*
+
+### Read the paper
+
+```bash
+pdflatex paper.tex
+```
+
+```bash
+open paper.pdf
+```

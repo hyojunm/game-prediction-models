@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 import graphviz
 from sklearn.tree import export_graphviz
@@ -16,7 +17,7 @@ def get_feature_importances(cols, model):
     
     for i in range(len(cols)):
         feature_importances['feature'].append(cols[i])
-        feature_importances['weight'].append(f'{round(model.feature_importances_[i] * 100, 2)}%')
+        feature_importances['weight'].append(round(model.feature_importances_[i] * 100, 2))
     
     return pd.DataFrame(feature_importances)
 
@@ -127,3 +128,32 @@ def runs_per_game(df, results, season=2023):
         
         if count % 5 == 0:
             print()
+
+
+# test models for n number of times and retrieve summary statistics
+def test_n(model_away, model_home,
+           x_train_away, y_train_away, x_train_home, y_train_home,
+           x_test_away, y_test_away, x_test_home, y_test_home,
+           n_iter=100):
+    acc = []
+
+    for i in range(n_iter):
+        model_away.fit(x_train_away, y_train_away)
+        model_home.fit(x_train_home, y_train_home)
+        
+        pred_away = model_away.predict(x_test_away)
+        pred_home = model_home.predict(x_test_home)
+        
+        results = pd.DataFrame({'away_pred': pred_away, 'home_pred': pred_home, 'away_true': y_test_away, 'home_true': y_test_home})
+        results.describe()
+        
+        acc.append(wl_accuracy(results))
+    
+    print(pd.DataFrame(acc).describe())
+    
+    plt.hist(acc, color='b')
+
+    plt.xlabel('Accuracy (%)')
+    plt.ylabel('Frequency')
+    
+    plt.show()
