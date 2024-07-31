@@ -53,7 +53,7 @@ python3 -m pip install pandas scikit-learn matplotlib numpy graphviz statsmodels
 4. Convert Jupyter Notebook files to Python scripts (replace `random_forest_regression.ipynb` with the Notebook file you'd like to see)
 
 ```bash
-jupyter nbconvert --to script random_forest_regression.ipynb
+jupyter nbconvert --to script models/random_forest_regression.ipynb
 ```
 
 ### Run the project
@@ -64,7 +64,7 @@ Run the converted Python script with (replace `random_forest_regression.py` with
 python3 random_forest_regression.py
 ```
 
-**Note:** Necessary data files are already included within the repository, so there is no need to run the `baseball_data_collection.ipynb` file again (unless you would like to edit the data).
+***Note:** Necessary data files are already included within the repository, so there is no need to run the `baseball_data_collection.ipynb` file again (unless you would like to edit the data).*
 
 ### Game data version log
 
@@ -78,16 +78,22 @@ python3 random_forest_regression.py
 * `v8` : using traditional stats from past 3 seasons (not including current)
 * `v9` : using expected stats from past 3 seasons (not including current)
 
-***Note:** When not explicitly mentioned, all data is compiled using stats from the past 3 seasons, including the current season.*
+***Note:** When not explicitly mentioned, all data is compiled using stats from the past 3 seasons, including the current season. Additionally, game data from `v6` onwards will use default rookie values for completely new players and personal averages for all other players.*
 
-***Another note:** Game data from `v6` onwards will use default rookie values for completely new players and personal averages for all other players.*
+### Open written outputs
 
-### Read the paper
+To read the paper, run the following commands in order:
 
 ```bash
-pdflatex paper.tex
+pdflatex documents/paper.tex
+bibtex documents/paper.aux
+pdflatex documents/paper.tex
+pdflatex documents/paper.tex
+open documents/paper.pdf
 ```
 
+To open the presentation, run the following command:
+
 ```bash
-open paper.pdf
+open presentation.pdf
 ```

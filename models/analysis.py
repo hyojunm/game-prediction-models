@@ -5,6 +5,9 @@ import graphviz
 from sklearn.tree import export_graphviz
 from IPython.display import Image
 
+import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
 from data_format import get_season_index
 
 

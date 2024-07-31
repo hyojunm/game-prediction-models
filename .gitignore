@@ -1,6 +1,5 @@
 .git
-env
 .ipynb_checkpoints
 */.ipynb_checkpoints
-*/images
+*/soccer
 __pycache__
