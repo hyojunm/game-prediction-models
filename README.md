@@ -106,11 +106,11 @@ The output should end in `.../game-prediction-models/documents`.
 Then, run the following commands in order:
 
 ```bash
-pdflatex documents/paper.tex
-bibtex documents/paper.aux
-pdflatex documents/paper.tex
-pdflatex documents/paper.tex
-open documents/paper.pdf
+pdflatex paper.tex
+bibtex paper.aux
+pdflatex paper.tex
+pdflatex paper.tex
+open paper.pdf
 ```
 
 To open the presentation, run the following command:
