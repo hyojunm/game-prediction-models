@@ -44,7 +44,7 @@ The most rudimentary method for predicting the winner of each game---and for pre
   \caption{Distribution of accuracy for random guessing models.}
 \end{figure}
 
-This simulation process was run 500 times and produced the results as shown above. Unsurprisingly, the mean accuracy of the random guessing model was very close to 50\% and the standard deviation was right around 1\%. Assuming that the distribution of model accuracy is normal, it can be reasonably concluded that, 97.5\% of the time, the random guessing model will not exceed an accuracy of approximately 52\% (2 standard deviations higher than the mean). Therefore, the main objective of this study shall be to implement regression models that can consistently record an accuracy greater than 52\%.
+This simulation process was run 10,000 times and produced the results as shown above. Unsurprisingly, the mean accuracy of the random guessing model was very close to 50\% and the standard deviation was right around 1\%. Assuming that the distribution of model accuracy is normal, it can be reasonably concluded that, 97.5\% of the time, the random guessing model will not exceed an accuracy of approximately 52\% (2 standard deviations higher than the mean). Therefore, the main objective of this study shall be to implement regression models that can consistently record an accuracy greater than 52\%.
 
 \section{Data collection}
 Before the model is created, data must first be collected. This section explains the process of compiling a dataset to be used for training.
@@ -110,7 +110,7 @@ In the context of this study, there are 12 explanatory variables, or features, u
   \caption{Results from linear regression model.}
 \end{figure}
 
-An accuracy of 58.27\% certainly exceeds the aforementioned goal of 52\%. Furthermore, it comes very close to the accuracy achieved by Vegas betting odds (around 57-59\%). In fact, when the model was fitted using game data from 2017-2018, 2020-2023 and tested using game data from 2019, it had an even better accuracy of 61.10\%.
+An accuracy of 58.81\% certainly exceeds the aforementioned goal of 52\%. Furthermore, it comes very close to the accuracy achieved by Vegas betting odds (around 57-59\%). In fact, when the model was fitted using game data from 2017-2018, 2020-2023 and tested using game data from 2019, it had an even better accuracy of 61.10\%.
 
 Despite the accuracy, though, there is reason to look at this linear regression model with a little bit of skepticism. With most linear regressions, when using an $x$-value beyond the range for which the fitted line was generated, the predicted $y$-value can often be unrealistic or uninterpretable. For instance, when the model was given a scenario where a very good team plays against a very bad team, it predicted that the latter will score negative runs.
 
@@ -147,7 +147,7 @@ For instance, how many customers will visit the drive-thru of a fast food restau
 
 After preprocessing the input data to ensure they were all on the same scale, a Poisson regression model has been fitted using game data from 2017-2022 and tested using game data from 2023. The results were fairly comparable to linear regression in terms of accuracy, with the added benefit of never predicting negative run totals. Another issue appears, however, when the aggregate is examined. After traversing through all the predictions for 2023, a season record for each team was calculated---records that were, compared to real life, very extreme. The Atlanta Braves (ATL) are certainly World Series contenders, but they aren't an unprecedented powerhouse. The Oakland Athletics (OAK) are sitting bottom of the American League West, but they certainly win more than 2 games in a full season. In fact, this problem also appeared when testing the linear regression model. The statistically better team was being favored a little too much, resulting in bias.
 
-Tuning the ``alpha'' parameter may yield more realistic results in terms of season record. Sure enough, with alpha set to 9, the Braves come back down to earth and the Athletics can avoid losing their entire fanbase. This improvement did come at a cost, namely about 4\% of accuracy. While the model remains comfortably above the goal of 52\%, it demonstrates the trade-off that occurs between individual game accuracy and realistic aggregate results. Selecting the right model and the right parameters, therefore, should depend on the user's purpose in making predictions. After all, no one model will be optimized to be the best in every aspect.
+Tuning the ``alpha'' parameter may yield more realistic results in terms of season record. Sure enough, with alpha set to 17, the Braves come back down to earth and the Athletics can avoid losing their entire fanbase. This improvement did come at a cost, namely about 4\% of accuracy. While the model remains comfortably above the goal of 52\%, it demonstrates the trade-off that occurs between individual game accuracy and realistic aggregate results. Selecting the right model and the right parameters, therefore, should depend on the user's purpose in making predictions. After all, no one model will be optimized to be the best in every aspect.
 
 \begin{figure}[H]
   \centering
@@ -190,11 +190,11 @@ So how exactly did this random forest regressor work? In particular, what featur
   \caption{A sample decision tree within the random forest regression model.}
 \end{figure}
 
-The bottom left node evaluates the home team's xFIP which, from a logical standpoint, is quite odd. The home team's \textit{pitching} shouldn't affect the home team's \textit{batting}, yet the decision tree implies so. In fact, the random forest model weighed the home team's xFIP at about 6\% and, more surprisingly, the home team starting pitcher's xFIP at about 12\%. It is reasonable to believe that the home team starter's xFIP shouldn't be the third most important factor when predicting the home team's runs scored.
+The middle node on the bottom row evaluates the home team starter's xFIP which, from a logical standpoint, is quite odd. The home team's \textit{pitching} shouldn't affect the home team's \textit{batting}, yet the decision tree implies so. In fact, the random forest model weighed the home team's xFIP at about 6\% and the home team starting pitcher's xFIP at about 12\%. Maybe the home team starter's xFIP shouldn't be the third most important factor when predicting the home team's runs scored.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=11cm]{fig10}
+  \includegraphics[width=10cm]{fig10}
   \caption{Feature weights for random forest regression model.}
 \end{figure}
 
@@ -202,7 +202,7 @@ The random forest regression model was run again, this time without irrelevant f
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=11cm]{fig11}
+  \includegraphics[width=10cm]{fig11}
   \caption{Feature weights for random forest regression model after removing irrelevant features.}
 \end{figure}
 
