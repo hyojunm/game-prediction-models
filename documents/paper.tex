@@ -12,8 +12,11 @@
 \date{August 2, 2024}
 
 \begin{document}
-
 \maketitle
+
+\begin{abstract}
+With the sheer amount of variability present in baseball games, is it even worth predicting the outcome? Upon further analysis and testing, I was able to create a model that successfully predicted approximately 58\% of games---significantly better than randomly guessing and comparable to industry standard models---using relatively few features. However, it was also discovered how the high accuracy came at the cost of unrealistic aggregate records. It is important for those using prediction models to identify these trade-offs and balance them based on their purpose.
+\end{abstract}
 
 \section{Introduction}
 In a game of baseball, each team gets nine innings to score as many runs as they can. During each inning, batters face off in order against the opposing team's pitcher. The batter's objective: hit the ball, round the bases, and return to home plate---thus scoring a run. The pitcher's objective: prevent any of that from happening. The national pastime, as the sport became known, has been a part of American society for well over 100 years, producing numerous stars throughout its rich history. Cy Young, who won over 500 games as a pitcher; Babe Ruth, who hit more home runs alone than entire teams; Ted Williams, who remains the last man to hit .400 over a full season; Nolan Ryan, who struck out over 5,000 batters throughout his career. Historically, players were celebrated for their excellence in traditional stats---pitcher wins, home runs, batting average, and strikeouts.
@@ -28,8 +31,8 @@ There are several reasons why building a game prediction model might be useful i
 \begin{description}
 \item[Analytical team building.] Being able to predict games---and seasons---in advance will provide insight into the strengths and weaknesses of the current team, which the front office can address by signing new players.
 \item[Sports betting.] As the 1919 Black Sox scandal would suggest, sports betting has been around for quite some time. Using a trained model could be a more successful strategy for placing bets.
-\item[Involved fan experience.] In addition to simply watching the games, fans can find predictions and later compare them to actual results. It'd be a more involved and interesting way for spectators to follow the action.
-\item[In-depth study of statistics.] Personally, working on this project has been a huge opportunity to delve deeper into the statistics and learn about different tools available for implementing models with code.
+\item[Involved fan experience.] In addition to simply watching the games, fans can find predictions and later compare them to actual results. It would be a more involved and interesting way for spectators to follow the action.
+\item[In-depth study of statistics.] Personally, working on this project has been a huge opportunity to delve deeper into the statistics and learn about different tools available for implementation.
 \end{description}
 
 \subsection{Setting a baseline}
@@ -44,9 +47,9 @@ The most rudimentary method for predicting the winner of each game---and for pre
 This simulation process was run 500 times and produced the results as shown above. Unsurprisingly, the mean accuracy of the random guessing model was very close to 50\% and the standard deviation was right around 1\%. Assuming that the distribution of model accuracy is normal, it can be reasonably concluded that, 97.5\% of the time, the random guessing model will not exceed an accuracy of approximately 52\% (2 standard deviations higher than the mean). Therefore, the main objective of this study shall be to implement regression models that can consistently record an accuracy greater than 52\%.
 
 \section{Data collection}
-Before the model is created, data must first be collected. This section explains the data collection process.
+Before the model is created, data must first be collected. This section explains the process of compiling a dataset to be used for training.
 
-\subsection{Selecting statistics}
+\subsection{Selecting features}
 The following statistics, collected for every regular season game from 2017 to 2023, were included in the dataset for training and testing:
 
 \begin{itemize}
@@ -58,7 +61,7 @@ The following statistics, collected for every regular season game from 2017 to 2
 \item Win percentage in 1-run games
 \end{itemize}
 
-Each variable listed above will appear twice in the dataset, once for the home team and once for the away team.
+Each variable listed above will appear twice in the dataset, once for the home team and once for the away team. All data were collected from Baseball Savant, FanGraphs (using the pybaseball library), and Retrosheet, and compiled using the game logs from Retrosheet.
 
 Expected weighted on base average (xwOBA), provided by Baseball Savant, is the primary measure of offense. Weighted on base average (wOBA) describes how often a batter has reached base safely and how impactful he was in doing so. Hitting a home run would have more impact on the game than hitting a single (since a run is scored immediately with a home run but not always with a single), and wOBA rewards the batter accordingly. Expected wOBA, or xwOBA, is an estimate for what the batter's wOBA \textit{should've} been based on quality of contact, plate discipline, etc. This is likely a better indicator of future performance than plain wOBA because the element of luck is reduced.
 
@@ -80,7 +83,7 @@ To simplify the real world baseball games, assumptions will have to be made. The
 \item[Each game is independent of another.] This may be true; there are plenty of occurrences where a team gets blown out in one game, only to come back and win the next one. However, teams (and players) are susceptible to streaks, hot or cold.
 \item[Environmental factors are irrelevant.] Weather, travel time, and amount of rest are variables that may or may not influence the outcome of any given game.
 \item[All rookies have a rookie-average value.] Of course, not all rookies are created equal. Some rookies instantly become the next superstar, while many others struggle to adjust to the top level of competition.
-\item[2020 was a normal year.] It was everything but. The pandemic-shortened 60-game season featured many impressive performances that likely would not have been sustained over the normal 162 games.
+\item[2020 was a normal year.] It was everything but. The pandemic-shortened 60-game season not only featured unsustainable performances from a statistical standpoint, but also included a shortened spring training, intensely packed schedules, new quarantine rules, and stadiums with no fans that surely affected players in one way or another.
 \end{description}
 
 \section{Training the model}
@@ -91,8 +94,8 @@ Linear regression takes the observed data and finds the linear relationship that
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1cm]{fig1}
-  \caption{An example of linear regression. The fitted line has the equation $\hat{y}=\beta_0+\beta_1x_1$ where $\hat{y}$ is the response variable, $\beta_0$ is the y-intercept, $x_1$ is the explanatory variable, and $\beta_1$ is the coefficient for $x_1$ (in other words, the slope).}
+  \includegraphics[width=6cm]{fig12}
+  \caption{An example of linear regression \cite{linreg}. The fitted line has the equation $\hat{y}=\beta_0+\beta_1x_1$ where $\hat{y}$ is the response variable, $\beta_0$ is the y-intercept, $x_1$ is the explanatory variable, and $\beta_1$ is the coefficient for $x_1$ (in other words, the slope).}
 \end{figure}
 
 Using the fitted line, the value of $\hat{y}$ can easily be predicted for any value of $x_1$ (although the word "any" should be used with caution). If there are more explanatory variables, there would simply be more terms in the equation, as follows:
@@ -107,7 +110,7 @@ In the context of this study, there are 12 explanatory variables, or features, u
   \caption{Results from linear regression model.}
 \end{figure}
 
-An accuracy of 58.27\% certainly exceeds the aforementioned goal of 52\%. Furthermore, it comes very close to the accuracy achieved by Vegas betting odds ([??]\%). In fact, when the model was fitted using game data from 2017-2018, 2020-2023 and tested using game data from 2019, it had an even better accuracy of 61.10\%.
+An accuracy of 58.27\% certainly exceeds the aforementioned goal of 52\%. Furthermore, it comes very close to the accuracy achieved by Vegas betting odds (around 57-59\%). In fact, when the model was fitted using game data from 2017-2018, 2020-2023 and tested using game data from 2019, it had an even better accuracy of 61.10\%.
 
 Despite the accuracy, though, there is reason to look at this linear regression model with a little bit of skepticism. With most linear regressions, when using an $x$-value beyond the range for which the fitted line was generated, the predicted $y$-value can often be unrealistic or uninterpretable. For instance, when the model was given a scenario where a very good team plays against a very bad team, it predicted that the latter will score negative runs.
 
@@ -130,11 +133,11 @@ where $x$ represents each explanatory variable, $\beta$ represents their coeffic
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1cm]{fig1}
-  \caption{An example of Poisson distribution.}
+  \includegraphics[width=6cm]{fig13}
+  \caption{An example of Poisson distribution \cite{poisreg}.}
 \end{figure}
 
-One interesting property of the Poisson distribution is that mean equals variance (which equals lambda). Consider this: the average points per team scored in an NBA game during the 2023-24 season was 114.2. Typically, NBA teams will score anywhere from 80 to 130 points in any given game. In contrast, the average goals per team scored in a Premier League match during the 2023-24 season was much lower at 1.64, and teams will usually score no more than 5 goals on a good day. The intuition is that if the count being predicted is large, then possible values will have a wider range, and vice versa.
+For instance, how many customers will visit the drive-thru of a fast food restaurant within 30 minutes? If $\lambda$ is known, the Poisson distribution can be used to calculate the probability that there will be 10 customers, 20 customers, etc. One interesting property of the Poisson distribution is that mean equals variance (which equals lambda). The intuition is that if the count being predicted is large, then possible values will have a wider range, and vice versa.
 
 \begin{figure}[H]
   \centering
@@ -157,11 +160,11 @@ Choosing what (and where) to eat for lunch is a decision made after taking into 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1cm]{fig1}
-  \caption{An example decision tree.}
+  \includegraphics[width=6cm]{fig14}
+  \caption{An example decision tree \cite{randfor}.}
 \end{figure}
 
-A similar model can be constructed with an observed dataset. The process of building a decision tree starts with generating an expression to be evaluated at the root node, and data points are separated into two groups based on that expression. Next, the algorithm will repeatedly test whether using a different expression---whether that's evaluating a different variable or comparing against a different value---will result in a more effective split. The goal is to achieve the lowest impurity at every step, to ensure that each split results in the most similar data points grouped together. Gini index, entropy, and information gain are some of the most common metrics for numerically representing impurity.
+A similar model can be constructed with an observed dataset. The process of building a decision tree starts with generating an expression to be evaluated at the root node, and data points are separated into two groups based on that expression. Next, the algorithm will repeatedly test whether using a different expression---whether that's evaluating a different variable or comparing against a different value---will result in a more effective split. The goal is to achieve the lowest impurity at every step, to ensure that each split results in the most similar data points grouped together.
 
 A random forest is simply a collection of multiple decision trees. Rather than having one tree make the decision all by itself, many differently-constructed trees each compute an output, with the final decision being either the most common output or the average of all outputs. As a result, a random forest tends to have a lower likelihood of overfitting than a decision tree. When a model is overfitted, it becomes too dependent on training data; it performs very well when given the same training data but not so well with any other dataset. In the realm of predictions, this is bad news because there is no guarantee that future inputs will be exactly the same as past inputs.
 
@@ -221,7 +224,10 @@ Additionally, all models included in this paper made assumptions as listed previ
 \end{description}
 
 \section{Acknowledgments}
+I would like to thank my mentor, Jacob Belemjian, for guiding me throughout this project; the Institute for Computing in Research, Mark Galassi, Mark Emry, and Stephen Seals for providing and overseeing this exciting research opportunity; and the TyRex Group for hosting our cohort in Austin, Texas.
 
-\section{Works Cited}
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\nocite{*}
 
 \end{document}
